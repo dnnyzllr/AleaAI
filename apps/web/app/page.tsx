@@ -1,65 +1,50 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useRouter } from 'next/navigation';
+import UploadDropzone from '@/components/upload/UploadDropzone';
+
+const HOW_IT_WORKS = [
+  { n: '01', t: 'Extract', d: 'Vision model reads player, line, side & price.' },
+  { n: '02', t: 'Analyze', d: 'Historical hit rates vs implied probability.' },
+  { n: '03', t: 'Report', d: 'A clear edge signal and risk label.' },
+];
+
+export default function UploadPage() {
+  const router = useRouter();
+  const goVerify = () => router.push('/verify');
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="mx-auto max-w-[760px] px-8 pb-14 pt-16">
+      <div className="text-center font-mono text-xs tracking-[3px] text-mint">AI MARKET ANALYZER</div>
+      <h1 className="mx-auto mb-3 mt-4 text-balance text-center text-[40px] font-bold leading-[1.12] tracking-[-1px]">
+        Turn a Kalshi screenshot into a historical edge report.
+      </h1>
+      <p className="mx-auto mb-10 max-w-[520px] text-center text-base leading-relaxed text-mid">
+        Drop in any NBA player market. AleaAI extracts the line, pulls game-log history, and scores
+        it against the implied probability.
+      </p>
+
+      <UploadDropzone onSelect={goVerify} />
+
+      <div className="mt-[22px] text-center">
+        <button
+          onClick={goVerify}
+          className="inline-flex items-center gap-[9px] rounded-[11px] border border-white/[0.14] px-[22px] py-[13px] text-sm font-medium text-hi transition-colors hover:bg-white/5"
+        >
+          <span className="h-[7px] w-[7px] rounded-full bg-mint" /> Try the sample market —
+          Karl-Anthony Towns 20+
+        </button>
+      </div>
+
+      <div className="mt-12 grid grid-cols-3 gap-3.5">
+        {HOW_IT_WORKS.map((s) => (
+          <div key={s.n} className="rounded-2xl border border-white/[0.07] p-[18px]">
+            <div className="mb-2 font-mono text-[13px] text-mint">{s.n}</div>
+            <div className="mb-1 text-sm font-semibold">{s.t}</div>
+            <div className="text-[13px] leading-snug text-mid">{s.d}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
