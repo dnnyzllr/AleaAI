@@ -17,7 +17,7 @@ export default function VerifyPage() {
   const { market, setMarket } = useAnalysis();
 
   return (
-    <div className="mx-auto max-w-[680px] px-8 pb-14 pt-12">
+    <div className="mx-auto max-w-[680px] px-4 pb-14 pt-12 sm:px-8">
       <h2 className="mb-1 text-[22px] font-bold tracking-[-0.5px]">Verify market details</h2>
       <p className="mb-8 text-[15px] text-mid">
         Confirm the extracted fields before running the analysis.
@@ -26,7 +26,7 @@ export default function VerifyPage() {
       <div className="mb-6 space-y-3 rounded-[18px] border border-white/[0.07] bg-panel p-6">
         {FIELDS.map(({ label, key }) => (
           <div key={key} className="flex items-center gap-4">
-            <span className="w-[130px] shrink-0 font-mono text-[11px] tracking-[1px] text-lo">
+            <span className="w-[90px] shrink-0 font-mono text-[11px] tracking-[1px] text-lo sm:w-[130px]">
               {label}
             </span>
             <input

@@ -42,7 +42,7 @@ export default function AnalyzingPage() {
         </div>
       </div>
 
-      <h2 className="mb-1 text-[22px] font-semibold">Building your risk report</h2>
+      <h2 className="mb-1 text-[22px] font-semibold">Pulling game logs and crunching the numbers...</h2>
       <p className="mb-[34px] font-mono text-sm text-mid">
         {market.player} · {market.marketType} {market.line} · {market.side}
       </p>

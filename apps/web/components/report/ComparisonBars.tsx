@@ -19,9 +19,9 @@ function Bar({ label, pct, color }: { label: string; pct: number; color: string 
 export default function ComparisonBars({ analysis }: { analysis: AnalysisResult }) {
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-panel p-[22px]">
-      <div className="mb-1 text-[15px] font-semibold">Historical vs implied</div>
+      <div className="mb-1 text-[15px] font-semibold">Past results vs. market price</div>
       <div className="mb-[22px] text-[13px] text-mid">
-        Hit rate compared to Kalshi&apos;s priced-in probability.
+        How often this happened recently, vs. what Kalshi&apos;s price suggests.
       </div>
 
       <Bar label="Last 10 hit rate" pct={analysis.last10} color="#2fe6a8" />
@@ -29,7 +29,7 @@ export default function ComparisonBars({ analysis }: { analysis: AnalysisResult 
       <Bar label="Kalshi implied" pct={analysis.impliedProb} color="rgba(255,255,255,0.28)" />
 
       <div className="mt-[18px] flex items-center gap-2.5 border-t border-white/[0.07] pt-4">
-        <span className="font-mono text-[11px] text-lo">EDGE GAP</span>
+        <span className="font-mono text-[11px] text-lo">DIFFERENCE</span>
         <span className="font-mono text-sm font-semibold text-mint">+7 to +12 pts</span>
       </div>
     </div>

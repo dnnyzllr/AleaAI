@@ -39,7 +39,7 @@ export const ANALYSIS_STEPS = [
   'Matching player game logs',
   'Computing historical hit rates',
   'Comparing vs Kalshi implied',
-  'Building risk model',
+  'Writing the risk report',
 ];
 
 export const SAVED_REPORTS: SavedReport[] = [

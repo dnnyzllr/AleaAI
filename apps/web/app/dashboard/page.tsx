@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const { saved } = useAnalysis();
 
   return (
-    <div className="mx-auto max-w-[1080px] px-8 pb-14 pt-[34px]">
+    <div className="mx-auto max-w-[1080px] px-4 pb-14 pt-[34px] md:px-8">
       <div className="mb-6 flex items-center gap-4">
         <div>
           <h2 className="mb-[5px] text-[25px] font-bold tracking-[-0.5px]">Saved reports</h2>
@@ -25,10 +25,10 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      <div className="mb-[22px] grid grid-cols-4 gap-3.5">
+      <div className="mb-[22px] grid grid-cols-2 gap-3.5 md:grid-cols-4">
         <StatTile label="ANALYSES RUN" value={String(DASHBOARD_STATS.analysesRun)} />
-        <StatTile label="AVG EDGE" value={DASHBOARD_STATS.avgEdge} accent />
-        <StatTile label="POSITIVE SIGNALS" value={String(DASHBOARD_STATS.positiveSignals)} />
+        <StatTile label="AVG GAP" value={DASHBOARD_STATS.avgEdge} accent />
+        <StatTile label="ABOVE MARKET" value={String(DASHBOARD_STATS.positiveSignals)} />
         <StatTile label="PLAYERS TRACKED" value={String(DASHBOARD_STATS.playersTracked)} />
       </div>
 

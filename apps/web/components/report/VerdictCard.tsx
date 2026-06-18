@@ -3,7 +3,7 @@ import ConfidenceGauge from './ConfidenceGauge';
 
 export default function VerdictCard({ analysis }: { analysis: AnalysisResult }) {
   return (
-    <div className="grid grid-cols-[auto_1fr] items-center gap-[30px] rounded-[18px] border border-mint/25 bg-gradient-to-br from-mint/[0.07] to-mint/[0.01] p-[26px]">
+    <div className="grid grid-cols-1 items-center gap-5 rounded-[18px] border border-mint/25 bg-gradient-to-br from-mint/[0.07] to-mint/[0.01] p-[26px] md:grid-cols-[auto_1fr] md:gap-[30px]">
       <ConfidenceGauge value={analysis.confidence} />
       <div>
         <div className="mb-[13px] inline-flex items-center gap-2 rounded-lg border border-mint/30 bg-mint/[0.14] px-[13px] py-1.5">
@@ -18,9 +18,9 @@ export default function VerdictCard({ analysis }: { analysis: AnalysisResult }) 
             {analysis.edge}
           </div>
           <div className="text-sm leading-tight text-mid">
-            historical edge
+            ahead of market price
             <br />
-            <span className="text-lo">vs Kalshi implied</span>
+            <span className="text-lo">based on recent game history</span>
           </div>
         </div>
 

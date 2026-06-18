@@ -23,7 +23,7 @@ export default function ConfidenceGauge({ value }: { value: number }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="font-mono text-[34px] font-semibold">{value}%</div>
-        <div className="font-mono text-[9px] tracking-[1.5px] text-mid">CONFIDENCE</div>
+        <div className="font-mono text-[9px] tracking-[1.5px] text-mid">TREND SCORE</div>
       </div>
     </div>
   );

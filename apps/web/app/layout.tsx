@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AnalysisProvider } from '@/context/AnalysisContext';
@@ -15,6 +15,11 @@ const mono = JetBrains_Mono({
   variable: '--font-mono',
   weight: ['400', '500', '600'],
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: 'AleaAI — NBA Kalshi Analyzer',
