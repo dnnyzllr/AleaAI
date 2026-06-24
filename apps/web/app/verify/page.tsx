@@ -1,7 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAnalysis } from '@/context/AnalysisContext';
+import { DEFAULT_MARKET } from '@/lib/mock-data';
 import { Market } from '@/lib/types';
 
 const FIELDS: { label: string; key: keyof Market }[] = [
@@ -15,6 +17,25 @@ const FIELDS: { label: string; key: keyof Market }[] = [
 export default function VerifyPage() {
   const router = useRouter();
   const { market, setMarket } = useAnalysis();
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem('extracted_market');
+    if (!stored) return;
+
+    try {
+      const parsed = JSON.parse(stored);
+      setMarket({
+        ...DEFAULT_MARKET,
+        player: String(parsed.player ?? DEFAULT_MARKET.player),
+        marketType: String(parsed.market ?? DEFAULT_MARKET.marketType),
+        line: String(parsed.line ?? DEFAULT_MARKET.line),
+        side: String(parsed.side ?? DEFAULT_MARKET.side),
+        price: String(parsed.price_cents ?? DEFAULT_MARKET.price),
+      });
+    } catch {
+      return;
+    }
+  }, [setMarket]);
 
   return (
     <div className="mx-auto max-w-[680px] px-4 pb-14 pt-12 sm:px-8">
