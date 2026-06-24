@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UploadDropzone from '@/components/upload/UploadDropzone';
+import { post } from '@/lib/api';
 
 const HOW_IT_WORKS = [
   { n: '01', t: 'Extract', d: 'Reads your screenshot and pulls the contract details.' },
@@ -11,7 +13,33 @@ const HOW_IT_WORKS = [
 
 export default function UploadPage() {
   const router = useRouter();
-  const goVerify = () => router.push('/verify');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const goVerify = async (file: File) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const result = await post('/extract-market', formData);
+      sessionStorage.setItem('extracted_market', JSON.stringify(result));
+      router.push('/verify');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '';
+      if (message.includes('fetch')) {
+        setError('Could not reach the server. Make sure the backend is running.');
+      } else if (message.includes('422')) {
+        setError('Extraction failed. Try a clearer screenshot of a Kalshi NBA market.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const goSample = () => router.push('/verify');
 
   return (
     <div className="mx-auto max-w-[760px] px-4 pb-14 pt-8 sm:px-8 sm:pt-16">
@@ -28,7 +56,7 @@ export default function UploadPage() {
 
       <div className="mt-[22px] text-center">
         <button
-          onClick={goVerify}
+          onClick={goSample}
           className="inline-flex items-center gap-[9px] rounded-[11px] border border-white/[0.14] px-[22px] py-[13px] text-sm font-medium text-hi transition-colors hover:bg-white/5"
         >
           <span className="h-[7px] w-[7px] rounded-full bg-mint" /> Try the sample market —

@@ -2,12 +2,13 @@
 
 import { useRef } from 'react';
 
-export default function UploadDropzone({ onSelect }: { onSelect: () => void }) {
+export default function UploadDropzone({ onSelect }: { onSelect: (file: File) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    onSelect();
+    const file = e.dataTransfer.files[0];
+    if (file) onSelect(file);
   };
 
   return (
@@ -22,7 +23,10 @@ export default function UploadDropzone({ onSelect }: { onSelect: () => void }) {
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={() => onSelect()}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onSelect(file);
+        }}
       />
       <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] border border-white/[0.14] bg-white/[0.04]">
         <svg
