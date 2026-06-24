@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -16,3 +16,14 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.post("/extract-market")
+async def extract_market(image: UploadFile = File(...)):
+    return {
+        "player": "Karl-Anthony Towns",
+        "market": "points",
+        "line": 20,
+        "side": "yes",
+        "price_cents": 68,
+        "confidence": 0.91
+    }
