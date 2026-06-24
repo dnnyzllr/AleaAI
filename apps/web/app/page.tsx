@@ -53,6 +53,9 @@ export default function UploadPage() {
       </p>
 
       <UploadDropzone onSelect={goVerify} />
+      {error && (
+        <p className="mt-4 text-center text-sm text-red-400">{error}</p>
+      )}
 
       <div className="mt-[22px] text-center">
         <button
