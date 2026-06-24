@@ -2,11 +2,18 @@
 
 import { useRef } from 'react';
 
-export default function UploadDropzone({ onSelect }: { onSelect: (file: File) => void }) {
+export default function UploadDropzone({
+  onSelect,
+  disabled = false,
+}: {
+  onSelect: (file: File) => void;
+  disabled?: boolean;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    if (disabled) return;
     const file = e.dataTransfer.files[0];
     if (file) onSelect(file);
   };
@@ -15,15 +22,19 @@ export default function UploadDropzone({ onSelect }: { onSelect: (file: File) =>
     <div
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
-      onClick={() => inputRef.current?.click()}
-      className="flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[18px] border border-dashed border-white/[0.18] bg-white/[0.025] px-8 py-14 transition-colors hover:border-mint/40 hover:bg-mint/[0.025]"
+      onClick={() => {
+        if (!disabled) inputRef.current?.click();
+      }}
+      className={`flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[18px] border border-dashed border-white/[0.18] bg-white/[0.025] px-8 py-14 transition-colors hover:border-mint/40 hover:bg-mint/[0.025] ${disabled ? 'pointer-events-none opacity-50' : ''}`}
     >
       <input
         ref={inputRef}
         type="file"
         accept="image/*"
+        disabled={disabled}
         className="hidden"
         onChange={(e) => {
+          if (disabled) return;
           const file = e.target.files?.[0];
           if (file) onSelect(file);
         }}

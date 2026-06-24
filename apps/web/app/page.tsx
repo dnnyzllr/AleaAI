@@ -52,15 +52,22 @@ export default function UploadPage() {
         historical hit rate, and compares it to what the market is pricing in.
       </p>
 
-      <UploadDropzone onSelect={goVerify} />
+      <UploadDropzone onSelect={goVerify} disabled={loading} />
       {error && (
         <p className="mt-4 text-center text-sm text-red-400">{error}</p>
+      )}
+      {loading && (
+        <p className="mt-4 flex items-center justify-center gap-2 text-sm text-mid">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-mint border-t-transparent" />
+          Extracting market details&hellip;
+        </p>
       )}
 
       <div className="mt-[22px] text-center">
         <button
           onClick={goSample}
-          className="inline-flex items-center gap-[9px] rounded-[11px] border border-white/[0.14] px-[22px] py-[13px] text-sm font-medium text-hi transition-colors hover:bg-white/5"
+          disabled={loading}
+          className={`inline-flex items-center gap-[9px] rounded-[11px] border border-white/[0.14] px-[22px] py-[13px] text-sm font-medium text-hi transition-colors hover:bg-white/5 ${loading ? 'pointer-events-none opacity-50' : ''}`}
         >
           <span className="h-[7px] w-[7px] rounded-full bg-mint" /> Try the sample market —
           Karl-Anthony Towns 20+
