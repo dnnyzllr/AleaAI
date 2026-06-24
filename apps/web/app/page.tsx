@@ -27,10 +27,18 @@ export default function UploadPage() {
       router.push('/verify');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : '';
-      if (message.includes('fetch')) {
+      if (message.includes('aborted') || message.includes('AbortError')) {
+        setError('Extraction timed out. Try a smaller or clearer screenshot.');
+      } else if (message.includes('fetch') || message.includes('Load failed')) {
         setError('Could not reach the server. Make sure the backend is running.');
+      } else if (message.includes('400')) {
+        setError('Invalid image format. Upload a PNG, JPG, or WebP screenshot.');
       } else if (message.includes('422')) {
         setError('Extraction failed. Try a clearer screenshot of a Kalshi NBA market.');
+      } else if (message.includes('500')) {
+        setError('Backend configuration error. Check your OpenAI API key and server logs.');
+      } else if (message) {
+        setError(message);
       } else {
         setError('Something went wrong. Please try again.');
       }
