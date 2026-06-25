@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "venv\\Scripts\\python.exe -m uvicorn main:app --reload --port 8000",
+    "dev:lan": "venv\\Scripts\\python.exe -m uvicorn main:app --reload --port 8000 --host 0.0.0.0"
+  }
+}
