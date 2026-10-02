@@ -11,7 +11,7 @@ from schemas.market import MarketExtraction
 
 
 ALLOWED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/jpg", "image/webp"}
-REQUIRED_EXTRACTION_FIELDS = {"player", "market", "line", "side", "price_cents"}
+REQUIRED_EXTRACTION_FIELDS = {"player", "market", "line"}
 FORBIDDEN_SUMMARY_PHRASES = (
     "guaranteed",
     "lock",
@@ -31,8 +31,18 @@ def _parse_extraction(content: str | None) -> MarketExtraction:
 
     data = json.loads(content)
     missing = REQUIRED_EXTRACTION_FIELDS - set(data)
+    empty = {
+        field
+        for field in REQUIRED_EXTRACTION_FIELDS
+        if field in data and (data[field] is None or data[field] == "")
+    }
+    missing = missing | empty
     if missing:
-        raise ValueError(f"Extraction missing required fields: {', '.join(sorted(missing))}")
+        raise ValueError(
+            "Extraction missing required visible fields: "
+            f"{', '.join(sorted(missing))}. "
+            "Use a screenshot that shows the player and market line."
+        )
 
     return MarketExtraction.model_validate(data)
 
@@ -52,7 +62,16 @@ async def _extract_with_model(
                     "Extract only what is visible in the Kalshi NBA market screenshot. "
                     "Return JSON with exactly these keys: player, market, line, side, price_cents. "
                     "Do not guess or invent values. market must be one of: points, rebounds, assists, threes. "
-                    "side must be yes or no. Do not return confidence, scores, recommendations, probabilities, or advice."
+                    "line should be numeric, so 20+ should be returned as 20. "
+                    "The screenshot may be a Kalshi order, market, or already-bought position view with multiple text lines. "
+                    "For position views, use the visible contract side from labels like Yes, No, Bought Yes, Bought No, Position, or the contract text. "
+                    "For position views, use the visible price paid, average price, fill price, or entry price when shown. "
+                    "Kalshi market prices are often shown on buttons or rows labeled Yes, No, Buy Yes, or Buy No. "
+                    "If a visible Yes price is shown, use side yes and set price_cents to that Yes price. "
+                    "If only a visible No price is shown, use side no and set price_cents to that No price. "
+                    "price_cents must be the visible price in cents as an integer, such as 68 for 68 cents. "
+                    "If side or price is not visible, return null for that field instead of guessing; the user will fill it on the verify screen. "
+                    "Do not return confidence, scores, recommendations, probabilities, or advice."
                 ),
             },
             {
@@ -66,7 +85,7 @@ async def _extract_with_model(
                     },
                     {
                         "type": "text",
-                        "text": "Extract the visible market details from this Kalshi NBA screenshot.",
+                        "text": "Extract the visible player, market, line, side, and price from this Kalshi NBA screenshot. Pay close attention to bought-position details, order details, Yes/No labels, and any visible price paid.",
                     },
                 ],
             },

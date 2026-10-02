@@ -29,8 +29,8 @@ export default function VerifyPage() {
         player: String(parsed.player ?? DEFAULT_MARKET.player),
         marketType: String(parsed.market ?? DEFAULT_MARKET.marketType),
         line: String(parsed.line ?? DEFAULT_MARKET.line),
-        side: String(parsed.side ?? DEFAULT_MARKET.side),
-        price: String(parsed.price_cents ?? DEFAULT_MARKET.price),
+        side: parsed.side == null ? '' : String(parsed.side),
+        price: parsed.price_cents == null ? '' : String(parsed.price_cents),
       });
     } catch {
       return;

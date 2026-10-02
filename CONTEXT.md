@@ -412,6 +412,32 @@ Use Git Bash as the preferred terminal.
 
 ---
 
+## iOS / Mobile Responsiveness Rules
+
+The app is tested on iOS devices via local network. All new pages and components must follow these rules:
+
+### Viewport
+`apps/web/app/layout.tsx` exports a `Viewport` with `width: 'device-width', initialScale: 1`. This is required — without it iOS defaults to 980px and zooms everything in. Do not remove it.
+
+### Padding
+All page-level containers use `px-4 md:px-8` (not `px-8` alone). Mobile gets 16px side padding; desktop gets 32px.
+
+### Grids
+- 4-column stat grids → `grid-cols-2 md:grid-cols-4` (2 cols on mobile, 4 on desktop)
+- 2-column side-by-side layouts → `grid-cols-1 md:grid-cols-2` (stacked on mobile)
+- Auto/1fr two-column cards (like VerdictCard) → `grid-cols-1 md:grid-cols-[auto_1fr]`
+
+### Tables
+Wide tables (like ReportsTable with 7 columns) must be wrapped in `overflow-x-auto` with an inner `min-w-[680px]` wrapper so they scroll horizontally instead of breaking on mobile.
+
+### Forms (Verify page)
+Fixed-width labels use `w-[90px] sm:w-[130px]` so inputs have enough room on small phones.
+
+### Bottom nav
+The sidebar becomes a bottom nav bar (`h-16`) on mobile. Pages account for this with `pb-16 md:pb-0` already set in `AppShell.tsx`. Do not add extra bottom padding that conflicts with this.
+
+---
+
 ## MVP Definition of Done
 
 The MVP is complete when a user can:
